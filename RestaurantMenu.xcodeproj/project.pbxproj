@@ -14,6 +14,7 @@
 		637C51D82AE07CF40003039A /* RecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C51D72AE07CF40003039A /* RecipeModel.swift */; };
 		637C51DA2AE07E090003039A /* Recipe_ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C51D92AE07E090003039A /* Recipe_ViewModel.swift */; };
 		637C51DD2AE0904F0003039A /* AddRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C51DC2AE0904F0003039A /* AddRecipeView.swift */; };
+		92A6AFCE2AE365E700BD39B8 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A6AFCD2AE365E700BD39B8 /* TimerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		637C51D72AE07CF40003039A /* RecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeModel.swift; sourceTree = "<group>"; };
 		637C51D92AE07E090003039A /* Recipe_ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe_ViewModel.swift; sourceTree = "<group>"; };
 		637C51DC2AE0904F0003039A /* AddRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeView.swift; sourceTree = "<group>"; };
+		92A6AFCD2AE365E700BD39B8 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				637C51C72AE07BD00003039A /* RestaurantMenuApp.swift */,
 				637C51C92AE07BD00003039A /* ContentView.swift */,
 				637C51DC2AE0904F0003039A /* AddRecipeView.swift */,
+				92A6AFCD2AE365E700BD39B8 /* TimerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92A6AFCE2AE365E700BD39B8 /* TimerView.swift in Sources */,
 				637C51DA2AE07E090003039A /* Recipe_ViewModel.swift in Sources */,
 				637C51CA2AE07BD00003039A /* ContentView.swift in Sources */,
 				637C51C82AE07BD00003039A /* RestaurantMenuApp.swift in Sources */,
@@ -303,6 +307,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RestaurantMenu/Preview Content\"";
+				DEVELOPMENT_TEAM = A4V6WT2DHK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -310,6 +315,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -331,6 +337,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RestaurantMenu/Preview Content\"";
+				DEVELOPMENT_TEAM = A4V6WT2DHK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -338,6 +345,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

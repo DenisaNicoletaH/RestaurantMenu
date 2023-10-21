@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+/*
+func addRecipeLink(){
+    var body:some View{
+        NavigationView{
+            NavigationLink(destination: AddRecipeView()){
+                Text("Add Recipe")
+            }
+        }
+    }
+}
+ */
+ 
+
 struct RecipeDetail: View {
     let recipe: Recipe
     
@@ -20,31 +33,34 @@ struct RecipeDetail: View {
 }
 
 struct ContentView: View {
+    @State var recipe_VM=Recipe_ViewModel()
+    @State var goToAddRecipeView=false
     var body: some View {
-        @State var recipe_VM=Recipe_ViewModel()
-        
         VStack{
-            
-            NavigationView {
-                
+            NavigationView{
                 List(recipe_VM.recipes, id: \.recipe_name){
                     recipe in
                     NavigationLink(destination: RecipeDetail(recipe: recipe))
                     {
                         Text(recipe.recipe_name)
                     }
-                }
-                .navigationBarTitle("Menu")
-                .toolbar(){
-                    Button("Add Recipe"){
-                        //Do the code for going to  }
+                }.navigationBarTitle("Menu")
+                    .toolbar(){
+                        NavigationLink(destination: AddRecipeView()){
+                            Text("Add Recipes")
+                        }
+                        
                     }
+                    .toolbar(){
+                        NavigationLink(destination: TimerView()){
+                            Text("Timer")
+                            }
                     
-                }
+                    }
             }
+            .padding()
         }
-                       .padding()
-}
+    }
     
 }
 
