@@ -9,7 +9,7 @@ import Foundation
 
 
 class Recipe_ViewModel: ObservableObject {
-    
+
     @Published
     var recipes : [Recipe] = [
         Recipe(recipe_name: "Salad", recipe_type: "Vegetarian", recipe_descripton:"It is a green salad"),
@@ -18,5 +18,11 @@ class Recipe_ViewModel: ObservableObject {
 
     
     ]
+    
+    
+    func addRecipe(name: String, type: String, description: String) {
+        let newRecipe = Recipe(recipe_name: name, recipe_type: type, recipe_descripton: description)
+            recipes.append(newRecipe)
+        }
 
 }

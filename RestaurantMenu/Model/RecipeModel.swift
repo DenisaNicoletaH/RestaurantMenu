@@ -8,8 +8,12 @@
 import Foundation
 
 
-struct Recipe{
-    let recipe_name:String
-    let recipe_type:String
-    let recipe_descripton:String
+struct Recipe:Identifiable{
+    var id=UUID()
+    var recipe_name:String
+    var recipe_type:String
+    var recipe_descripton:String
 }
+
+
+

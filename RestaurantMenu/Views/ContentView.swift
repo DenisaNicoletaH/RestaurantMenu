@@ -33,9 +33,13 @@ struct RecipeDetail: View {
 }
 
 struct ContentView: View {
+    
     @State var recipe_VM=Recipe_ViewModel()
     @State var goToAddRecipeView=false
+    @State private var searchText=""
+    
     var body: some View {
+        
         VStack{
             NavigationView{
                 List(recipe_VM.recipes, id: \.recipe_name){
@@ -46,7 +50,7 @@ struct ContentView: View {
                     }
                 }.navigationBarTitle("Menu")
                     .toolbar(){
-                        NavigationLink(destination: AddRecipeView()){
+                        NavigationLink(destination: AddRecipeView(viewModel:recipe_VM)){
                             Text("Add Recipes")
                         }
                         
@@ -54,14 +58,13 @@ struct ContentView: View {
                     .toolbar(){
                         NavigationLink(destination: TimerView()){
                             Text("Timer")
-                            }
-                    
+                        }
+                        
                     }
             }
             .padding()
         }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
