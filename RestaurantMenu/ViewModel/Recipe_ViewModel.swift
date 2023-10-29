@@ -13,8 +13,9 @@ class Recipe_ViewModel: ObservableObject {
     @Published
     var recipes : [Recipe] = [
         Recipe(recipe_name: "Salad", recipe_type: "Vegetarian", recipe_descripton:"It is a green salad"),
-    Recipe(recipe_name: "Steak", recipe_type: "Meat", recipe_descripton:"It is a steak"),
-        Recipe(recipe_name: "Mac & Cheese", recipe_type: "Pasta", recipe_descripton:"It is fancy pasta")
+    Recipe(recipe_name: "Steak", recipe_type: "Carnivore", recipe_descripton:"It is a steak"),
+        Recipe(recipe_name: "Mac & Cheese", recipe_type: "Pasta", recipe_descripton:"It is fancy pasta"),
+        Recipe(recipe_name: "Sushi", recipe_type: "Pescivore", recipe_descripton:"It is sushi")
 
     
     ]
