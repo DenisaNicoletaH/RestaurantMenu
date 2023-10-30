@@ -34,33 +34,55 @@ struct AddRecipeView: View {
     @State var goToAddRecipeView=false
     @State private var searchText=""
     @State private var employeeActive = false
-    
+       
+
     var body: some View {
         NavigationView{
             VStack{
                 Text("Add Recipe")
-                 .font(.largeTitle)
+                    .font(.largeTitle)
+               //  .padding(.bottom,50)
+                
+                
                 HStack{
                     Text("Recipe Name:")
                     TextField("Recipe Name", text: $name)
+                        .padding(5)
+                        .border(.black, width: 1)
+                        .background(Color.white)
+                        .frame(width: 200)
+                        
                 }
                 HStack{
                     Text("Recipe Diet:")
-                    TextField("Diet",text:$diet).padding()
+                    TextField("Diet",text:$diet)
+                        .padding(5)
+                        .border(.black, width: 1)
+                        .background(Color.white)
+                        .frame(width: 200)
+
                 }
                 
                 
                 HStack{
                     Text("Recipe Description:")
                     TextField("Description", text:$description)
+                        .padding(10)
+                        .border(.black, width: 1)
+                        .background(Color.white)
+                        .frame(width: 280)
                 }
                 
                 
                 Button("Add") {
                     viewModel.addRecipe(name: name, type: diet, description: description)
+                    recipes.append(Recipe(recipe_name: name, recipe_type: diet, recipe_descripton: description))
                     showAlert = true
-                }
-                .alert(isPresented: $showAlert) {
+                    
+                    
+                }.padding(.top,50)
+                    
+                    .alert(isPresented: $showAlert) {
                     Alert(
                         title: Text("Recipe Added"),
                         message: Text("You have successfully added the recipe: \(name)"),
@@ -68,12 +90,22 @@ struct AddRecipeView: View {
                     )
                 }
             }
-            }
+            .foregroundColor(Color.black)
+            
+                    
+            
         }
+        .padding()
+        .background(LinearGradient(gradient: Gradient(colors: [.green,.blue, .yellow ]),startPoint: .top,endPoint:.bottom))
+        .border(.black, width: 1)
+    }
+       
+
     
     
 }
-   
+
+    
 
 /*
 struct AddRecipeView_Previews: PreviewProvider {

@@ -8,9 +8,6 @@
 import SwiftUI
 
 
-
- 
-
 struct RecipeDetail: View {
     let recipe: Recipe
     
@@ -45,60 +42,105 @@ struct ContentView: View {
     
     @State var recipe_VM=Recipe_ViewModel()
     @State var goToAddRecipeView=false
-    @State private var searchText=""
-    @State private var employeeActive = false
-
+    @State var employeeActive = false
+    @State var recipes: [Recipe]
+    @State var searchText=""
+    @State var searchedRecipe: Recipe?
+    
+    func searchRecipe() {
+        searchedRecipe = recipes.first { recipe in
+            return recipe.recipe_name.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+    
+    
+    
+    
     var body: some View {
-        VStack{
-            NavigationView{
-                List(recipe_VM.recipes, id: \.recipe_name) { recipe in
+        NavigationView {
+            VStack {
+                TextField("Search Recipes", text: $searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                Button("Search"){
+                    searchRecipe()
+                }
+                .padding(5)
+                .foregroundColor(Color.white)
+                .border(.white, width: 1)
+                .background(Color.green)
+                .frame(width: 200)
+                
+                if let searchedRecipe = searchedRecipe {
+                    RecipeDetail(recipe: searchedRecipe)
+                        .background(Color.white)
+                }
+                List(recipes, id: \.recipe_name) { recipe in
                     NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                        Text(recipe.recipe_name)
-                            .font(.headline)
                         
-                        Text(recipe.recipe_type)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        
+                        ScrollView{
+                            VStack{
+                                Text(recipe.recipe_name)
+                                    .font(.headline)
+                                
+                                Text(recipe.recipe_type)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                
+                            }
+                        }
                     }
+
                 }
                 .toolbar {
-                    NavigationLink(destination: AddRecipeView(viewModel: recipe_VM, recipes: $recipe_VM.recipes)) {
-                        Label("Recipe", systemImage:"book.fill")
-                        Text("Add Recipes")
-                            .font(Font.system(size: 10))
-                        
-                    }
-                    .padding()
-                }
-                .toolbar {
-                    NavigationLink(destination: TimerView()) {
-                        Label("Timer",systemImage:"clock.fill")
-                        Text("Timer")
-                            .font(Font.system(size: 10))
-                    }
-                    .padding()
-                }                .toolbar {
-                    NavigationLink(destination: EmployeesView(employeeActive: $employeeActive)) {
-                        Label("Employees", systemImage: "person.fill")
-                        Text("Employees")
-                            .font(Font.system(size: 10))
+                    // Add Recipe button
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: AddRecipeView(viewModel: recipe_VM, recipes: $recipes)) {
+                            Label("Recipe", systemImage: "book.fill")
+                            Text("Add Recipes")
+                                .font(Font.system(size: 10))
+                        }
+                        .navigationViewStyle(StackNavigationViewStyle())
                     }
                     
-                }
-                .foregroundColor(Color.red)
+                    // Timer button
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: TimerView()) {
+                            Label("Timer", systemImage: "clock.fill")
+                            Text("Timer")
+                                .font(Font.system(size: 10))
+                        }
+                        .navigationViewStyle(StackNavigationViewStyle())
+                        .padding(10)
+                    }
+                    
+                    // Employees button
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: EmployeesView(employeeActive: $employeeActive)) {
+                            Label("Employees", systemImage: "person.fill")
+                            Text("Employees")
+                                .font(Font.system(size: 10))
+                        }
+                        .navigationViewStyle(StackNavigationViewStyle())
+                        .padding(30)
+                    }
                 
+                }
+                .foregroundColor(Color.green)
                 .padding()
-                .background(LinearGradient(gradient: Gradient(colors: [.green,.blue, .yellow ]),startPoint: .top,endPoint:.bottom))
-            }          .padding(.bottom,20)
+                .background(LinearGradient(gradient: Gradient(colors: [.blue,.green]), startPoint: .top, endPoint: .bottom))
+                .border(.black, width: 1)
+            }
+            .onAppear {
+                self.recipes = recipe_VM.recipes
+            }
             
         }
     }
-}
- 
     
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View{
-        ContentView()
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View{
+            ContentView(recipes: [Recipe]())
+        }
     }
 }
