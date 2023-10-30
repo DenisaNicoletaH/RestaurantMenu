@@ -23,4 +23,8 @@ class Employees_ViewModel: ObservableObject {
         employees.append(newEmployee)
         
     }
+    
+    func toggleEmployee(employee: Employees){
+        
+    }
 }

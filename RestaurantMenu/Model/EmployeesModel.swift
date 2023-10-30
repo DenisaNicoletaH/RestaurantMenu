@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Employees:Identifiable{
+struct Employees:Identifiable,Equatable{
     var id=UUID()
     var employee_name:String
     var active:Bool //This defines if they are working or not

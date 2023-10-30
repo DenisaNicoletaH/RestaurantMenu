@@ -31,9 +31,9 @@ struct RecipeDetail: View {
             else{
                 Text("")
             }
-            Text("Name:\(recipe.recipe_name)")
-            Text("Type: \(recipe.recipe_type)")
-            Text(recipe.recipe_descripton)
+            Text("Name:\(recipe.recipe_name)").padding()
+            Text("Type: \(recipe.recipe_type)").padding()
+            Text(recipe.recipe_descripton).padding()
         }
     }
 }
@@ -59,83 +59,84 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField("Search Recipes", text: $searchText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                Button("Search"){
-                    searchRecipe()
-                }
-                .padding(5)
-                .foregroundColor(Color.white)
-                .border(.white, width: 1)
-                .background(Color.green)
-                .frame(width: 200)
-                
-                if let searchedRecipe = searchedRecipe {
-                    RecipeDetail(recipe: searchedRecipe)
-                        .background(Color.white)
-                }
-                List(recipes, id: \.recipe_name) { recipe in
-                    NavigationLink(destination: RecipeDetail(recipe: recipe)) {
-                        
-                        ScrollView{
-                            VStack{
-                                Text(recipe.recipe_name)
-                                    .font(.headline)
-                                
-                                Text(recipe.recipe_type)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                
+                    TextField("Search Recipes", text: $searchText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    Button("Search"){
+                        searchRecipe()
+                    }
+                    .padding(5)
+                    .foregroundColor(Color.white)
+                    .border(.white, width: 1)
+                    .background(Color.green)
+                    .frame(width: 200)
+                    
+                //when u search
+                    if let searchedRecipe = searchedRecipe {
+                        RecipeDetail(recipe: searchedRecipe)
+                            .background(Color.white)
+                    }
+                    List(recipes, id: \.recipe_name) { recipe in
+                        NavigationLink(destination: RecipeDetail(recipe: recipe).border(.black,width:1)){
+                            ScrollView{
+                                VStack{
+                                    //the main list page
+                                    Text(recipe.recipe_name)
+                                        .font(.headline)
+                                    
+                                    Text(recipe.recipe_type)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
+                        
                     }
-
+                        .toolbar {
+                        // Add Recipe button
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            NavigationLink(destination: AddRecipeView(viewModel: recipe_VM, recipes: $recipes)) {
+                                Label("Recipe", systemImage: "book.fill")
+                                Text("Add Recipes")
+                                    .font(Font.system(size: 10))
+                            }
+                            .navigationViewStyle(StackNavigationViewStyle())
+                        }
+                        
+                        // Timer button
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            NavigationLink(destination: TimerView()) {
+                                Label("Timer", systemImage: "clock.fill")
+                                Text("Timer")
+                                    .font(Font.system(size: 10))
+                            }
+                            .navigationViewStyle(StackNavigationViewStyle())
+                            
+                        }
+                        
+                        // Employees button
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            NavigationLink(destination: EmployeesView()) {
+                                Label("Employees", systemImage: "person.fill")
+                                Text("Employees")
+                                    .font(Font.system(size: 10))
+                            }
+                            .navigationViewStyle(StackNavigationViewStyle())
+                            .padding(20)
+                        }
+                        
+                    }
+                    .foregroundColor(Color.green)
+                    .padding()
+                    .background(LinearGradient(gradient: Gradient(colors: [.blue,.green]), startPoint: .top, endPoint: .bottom))
+                    .border(.black, width: 1)
                 }
-                .toolbar {
-                    // Add Recipe button
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: AddRecipeView(viewModel: recipe_VM, recipes: $recipes)) {
-                            Label("Recipe", systemImage: "book.fill")
-                            Text("Add Recipes")
-                                .font(Font.system(size: 10))
-                        }
-                        .navigationViewStyle(StackNavigationViewStyle())
-                    }
-                    
-                    // Timer button
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: TimerView()) {
-                            Label("Timer", systemImage: "clock.fill")
-                            Text("Timer")
-                                .font(Font.system(size: 10))
-                        }
-                        .navigationViewStyle(StackNavigationViewStyle())
-                        .padding(10)
-                    }
-                    
-                    // Employees button
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: EmployeesView(employeeActive: $employeeActive)) {
-                            Label("Employees", systemImage: "person.fill")
-                            Text("Employees")
-                                .font(Font.system(size: 10))
-                        }
-                        .navigationViewStyle(StackNavigationViewStyle())
-                        .padding(30)
-                    }
+                .onAppear {
+                    self.recipes = recipe_VM.recipes
+                }
                 
-                }
-                .foregroundColor(Color.green)
-                .padding()
-                .background(LinearGradient(gradient: Gradient(colors: [.blue,.green]), startPoint: .top, endPoint: .bottom))
-                .border(.black, width: 1)
             }
-            .onAppear {
-                self.recipes = recipe_VM.recipes
-            }
-            
-        }
+        
     }
     
     struct ContentView_Previews: PreviewProvider {

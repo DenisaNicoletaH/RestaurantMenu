@@ -21,7 +21,6 @@ struct EmployeesDetail: View {
             }
             .frame(width: 300, height: 75, alignment: .center)
             .padding(.all, 20)
-            .background(active ? Color.green : Color.red)
         }
     }
 }
@@ -33,7 +32,6 @@ struct EmployeesView: View {
     @State var addEmployee=false
     @State private var searchText=""
     @State private var active:Bool=false
-    @Binding var employeeActive: Bool
     @State var recipe_VM=Recipe_ViewModel()
     @State var goToAddRecipeView=false
     @State var employeeSelection:String?
@@ -41,11 +39,13 @@ struct EmployeesView: View {
     var body: some View {
         VStack {
         NavigationView{
-                List(employees_VM.employees, id: \.employee_name) { employee in
+                List(employees_VM.employees, id: \.employee_name) {
+                    employee in
                     Label(employee.employee_name,systemImage: "person.fill")
-                            .foregroundColor(employeeActive ? Color.green : Color.red)
+                        .foregroundColor(employee.active ? Color.green : Color.red)
                         .onTapGesture {
-                            employeeActive.toggle()
+                            
+                            print(employee.active)
                         
                     }
                 }
@@ -53,6 +53,11 @@ struct EmployeesView: View {
             }
         
     }
+        
+        .foregroundColor(Color.green)
+        .padding()
+        .background(LinearGradient(gradient: Gradient(colors: [.blue,.green]), startPoint: .top, endPoint: .bottom))
+        .border(.black, width: 1)
 
 }
     
@@ -60,7 +65,7 @@ struct EmployeesView: View {
         @State static var employeeActive = true
         
         static var previews: some View {
-            EmployeesView(employeeActive: $employeeActive)
+            EmployeesView()
         }
     }
 }

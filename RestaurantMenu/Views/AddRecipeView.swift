@@ -6,22 +6,7 @@
 //
 
 import SwiftUI
-/*
-struct addRecipesStruct{
-        @ObservedObject var viewModel: Recipe_ViewModel
 
-        var body: some View {
-            NavigationView {
-                List(viewModel.recipes) { recipe in
-                    Text(recipe.recipe_name)
-                }
-                .navigationBarItems(trailing:
-                    NavigationLink("Add Recipe", destination: AddRecipeView(viewModel: viewModel))
-                )
-            }
-        }
-}
- */
 
 struct AddRecipeView: View {
     @State public var name:String=""
@@ -34,6 +19,9 @@ struct AddRecipeView: View {
     @State var goToAddRecipeView=false
     @State private var searchText=""
     @State private var employeeActive = false
+    
+    @Environment(\.presentationMode) var presentationMode
+
        
 
     var body: some View {
@@ -66,7 +54,7 @@ struct AddRecipeView: View {
                 
                 HStack{
                     Text("Recipe Description:")
-                    TextField("Description", text:$description)
+                    TextField("Description/How to do it", text:$description)
                         .padding(10)
                         .border(.black, width: 1)
                         .background(Color.white)
@@ -96,7 +84,7 @@ struct AddRecipeView: View {
             
         }
         .padding()
-        .background(LinearGradient(gradient: Gradient(colors: [.green,.blue, .yellow ]),startPoint: .top,endPoint:.bottom))
+        .background(LinearGradient(gradient: Gradient(colors: [.green,.blue ]),startPoint: .top,endPoint:.bottom))
         .border(.black, width: 1)
     }
        
@@ -104,17 +92,6 @@ struct AddRecipeView: View {
     
     
 }
-
-    
-
-/*
-struct AddRecipeView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddRecipeView(viewModel: Recipe_ViewModel(), viewModel:viewModel)
-
-    }
- */
-
 struct AddRecipeView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = Recipe_ViewModel()
