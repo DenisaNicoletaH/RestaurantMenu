@@ -8,59 +8,70 @@
 import SwiftUI
 
 struct EmployeesDetail: View {
-    @State private var active: Bool = false
-    @Binding var employeeActive: Bool
-
-    var body: some View {
-        VStack {
-            Button(action: {
-                self.active.toggle() // Toggle the 'active' state
-            }) {
-                Text(active ? "WORKING" : "NOT WORKING")
-                    .font(.system(size: 24))
+    @Binding var employee: Employees  // Pass the employee as a binding
+        
+        var body: some View {
+            HStack {
+                Text(employee.employee_name)
+                    .font(.title)
+                    .fontWeight(.black)
+                Spacer()
             }
-            .frame(width: 300, height: 75, alignment: .center)
-            .padding(.all, 20)
+            VStack {
+                Button(action: {
+                    employee.active.toggle()
+                }) {
+                    Text(employee.active ? "WORKING" : "NOT WORKING")
+                        .font(employee.active ? .system(size: 20) : .system(size: 14)) 
+
+                }
+                .frame(width: 100, height: 20, alignment: .center)
+                .padding(5)
+            }
         }
     }
-}
 
 
 struct EmployeesView: View {
     
     @State var employees_VM = Employees_ViewModel()
-       @State var addEmployee = false
-       @State private var searchText = ""
-       @State private var active = false
-       @State var recipe_VM = Recipe_ViewModel()
-       @State var goToAddRecipeView = false
-       @State var employeeSelection: String?
-       @State var employees: [Employees] = []
-
+    @State var addEmployee = false
+    @State private var searchText = ""
+    @State private var active = false
+    @State var recipe_VM = Recipe_ViewModel()
+    @State var goToAddRecipeView = false
+    @State var employeeSelection: String?
+    @State var employees: [Employees] = []
+    
     var body: some View {
-        NavigationView {
-                 VStack {
-                     List(employees_VM.employees, id: \.employee_name) { employee in
-                         Label(employee.employee_name, systemImage: "person.fill")
-                             .foregroundColor(employee.active ? Color.green : Color.red)
-                             .onTapGesture {
-                                 print(employee.active)
-                             }
-                     }
-                     .navigationBarTitle("Employees")
-                 }
-                 .foregroundColor(Color.green)
-                 .padding()
-                 .background(LinearGradient(gradient: Gradient(colors: [.blue, .green]), startPoint: .top, endPoint: .bottom))
-                 .border(Color.black, width: 1)
-                 .navigationBarItems(trailing:
-                     NavigationLink(destination: AddEmployeesView(employees: $employees, employees_VM: Employees_ViewModel())) {
-                         Text("Add Employees")
-                     }
-                 )
-             }
-         }
-     }
+                NavigationView {
+                VStack {
+                    List(employees, id: \.id) { employee in EmployeesDetail(employee: $employees[employees.firstIndex(of: employee)!])
+                            .foregroundColor(employee.active ? Color.green : Color.red)
+                    }
+                    .navigationBarTitle("Employees")
+                }
+                .foregroundColor(Color.green)
+                .padding()
+                .background(LinearGradient(gradient: Gradient(colors: [.blue, .green]), startPoint: .top, endPoint: .bottom))
+                .border(Color.black, width: 1)
+                .navigationBarItems(trailing:
+                                        NavigationLink(destination: AddEmployeesView(employees: $employees, employees_VM: employees_VM)) {
+                   
+                    Label("Employees", systemImage: "person.fill")
+                    Text("Add Employees")
+                        .font(Font.system(size: 10))
+                
+                }
+                )
+            }
+            .onAppear {
+                // Initialize the employees array with the data from the view model
+                employees = employees_VM.employees
+            }
+        }
+    }
+
 
     struct EmployeesView_Previews: PreviewProvider {
         @State static var employeeActive = true

@@ -28,6 +28,13 @@ struct RecipeDetail: View {
                     .resizable()
                     .scaledToFit()
             }
+            else if recipe.recipe_type == "Pasta"{
+                Image("PastaMenu")
+                    .resizable()
+                    .scaledToFit()
+            }
+            
+            
             else{
                 Text("")
             }
@@ -75,9 +82,11 @@ struct ContentView: View {
                     if let searchedRecipe = searchedRecipe {
                         RecipeDetail(recipe: searchedRecipe)
                             .background(Color.white)
+                            .border(Color.black)
                     }
                     List(recipes, id: \.recipe_name) { recipe in
-                        NavigationLink(destination: RecipeDetail(recipe: recipe).border(.black,width:1)){
+                        NavigationLink(destination: RecipeDetail(recipe: recipe)
+                            .border(.white,width:1)){
                             ScrollView{
                                 VStack{
                                     //the main list page
@@ -126,7 +135,7 @@ struct ContentView: View {
                         }
                         
                     }
-                    .foregroundColor(Color.green)
+                    .foregroundColor(Color.blue)
                     .padding()
                     .background(LinearGradient(gradient: Gradient(colors: [.blue,.green]), startPoint: .top, endPoint: .bottom))
                     .border(.black, width: 1)

@@ -20,9 +20,11 @@ struct AddEmployeesView: View {
         VStack {
             Text("Add Employee")
                 .font(.largeTitle)
+                .fontWeight(.black)
+                .foregroundColor(Color.blue)
             
             HStack {
-                Text("Employee Name:")
+                Text("Employee Name")
                 TextField("Employee Name", text: $name)
                     .padding(5)
                     .border(Color.black, width: 1)
@@ -30,13 +32,15 @@ struct AddEmployeesView: View {
                    // .frame(width:200)
             }
             
-            Button("Add") {
+            Button("Add"){
                 employees_VM.addEmployees(name: name)
                 employees.append(Employees(employee_name: name, active: false))
                 showAlert = true
                 presentationMode.wrappedValue.dismiss()
             }
-            .padding(.top, 50)
+            
+
+          //  .padding(.top, 50)
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("Employee Added"),

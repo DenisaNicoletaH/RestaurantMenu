@@ -28,19 +28,26 @@ struct AddRecipeView: View {
             VStack{
                 Text("Add Recipe")
                     .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.blue)
                //  .padding(.bottom,50)
                 
                 
                 HStack{
                     Text("Recipe Name:")
+                        .foregroundColor(Color.blue)
                     TextField("Recipe Name", text: $name)
                         .padding(5)
                         .border(.black, width: 1)
                         .background(Color.white)
                         .frame(width: 200)
                 }
+                
+                
+                
                       HStack{
                           Text("Recipe Diet:")
+                              .foregroundColor(Color.blue)
                           TextField("Diet",text:$diet)
                               .padding(5)
                               .border(.black, width: 1)
@@ -52,6 +59,7 @@ struct AddRecipeView: View {
                 
                 HStack{
                     Text("Recipe Description:")
+                        .foregroundColor(Color.blue)
                     TextField("Description/How to do it", text:$description)
                         .padding(10)
                         .border(.black, width: 1)
@@ -74,7 +82,7 @@ struct AddRecipeView: View {
                         message: Text("You have successfully added the recipe: \(name)"),
                         dismissButton: .default(Text("OK"))
                     )
-                }
+                    }
             }
             .foregroundColor(Color.black)
             
