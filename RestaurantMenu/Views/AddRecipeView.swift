@@ -19,7 +19,6 @@ struct AddRecipeView: View {
     @State var goToAddRecipeView=false
     @State private var searchText=""
     @State private var employeeActive = false
-    
     @Environment(\.presentationMode) var presentationMode
 
        
@@ -39,17 +38,16 @@ struct AddRecipeView: View {
                         .border(.black, width: 1)
                         .background(Color.white)
                         .frame(width: 200)
-                        
                 }
-                HStack{
-                    Text("Recipe Diet:")
-                    TextField("Diet",text:$diet)
-                        .padding(5)
-                        .border(.black, width: 1)
-                        .background(Color.white)
-                        .frame(width: 200)
+                      HStack{
+                          Text("Recipe Diet:")
+                          TextField("Diet",text:$diet)
+                              .padding(5)
+                              .border(.black, width: 1)
+                              .background(Color.white)
+                              .frame(width: 200)
 
-                }
+                      }
                 
                 
                 HStack{
@@ -65,7 +63,7 @@ struct AddRecipeView: View {
                 Button("Add") {
                     viewModel.addRecipe(name: name, type: diet, description: description)
                     recipes.append(Recipe(recipe_name: name, recipe_type: diet, recipe_descripton: description))
-                    showAlert = true
+                    presentationMode.wrappedValue.dismiss();                    showAlert = true
                     
                     
                 }.padding(.top,50)
