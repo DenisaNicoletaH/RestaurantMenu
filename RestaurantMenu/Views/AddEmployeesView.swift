@@ -25,7 +25,9 @@ struct AddEmployeesView: View {
             
             HStack {
                 Text("Employee Name")
+                    .foregroundColor(Color.blue)
                 TextField("Employee Name", text: $name)
+                    
                     .padding(5)
                     .border(Color.black, width: 1)
                     .background(Color.white)
