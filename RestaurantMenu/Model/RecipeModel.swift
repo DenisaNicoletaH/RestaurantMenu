@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct Recipe:Identifiable{
-    var id=UUID()
+struct Recipe:Identifiable,Codable{
+    var id=UUID().uuidString
     var recipe_name:String
     var recipe_type:String
     var recipe_descripton:String

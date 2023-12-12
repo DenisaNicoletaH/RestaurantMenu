@@ -11,19 +11,53 @@ import Foundation
 class Recipe_ViewModel: ObservableObject {
 
     @Published
-    var recipes : [Recipe] = [
-        Recipe(recipe_name: "Salad", recipe_type: "Vegetarian", recipe_descripton:"It is a green salad"),
-    Recipe(recipe_name: "Steak", recipe_type: "Carnivore", recipe_descripton:"It is a steak"),
-        Recipe(recipe_name: "Mac & Cheese", recipe_type: "Pasta", recipe_descripton:"It is fancy pasta"),
-        Recipe(recipe_name: "Sushi", recipe_type: "Pescivore", recipe_descripton:"It is sushi")
-
-    
-    ]
+    var recipes : [Recipe] = []
     
     
     func addRecipe(name: String, type: String, description: String) {
         let newRecipe = Recipe(recipe_name: name, recipe_type: type, recipe_descripton: description)
-            recipes.append(newRecipe)
-        }
+        Firestore_DatabaseManager.firestoreDB.createRecipe(recipes: newRecipe)
+    }
 
+    
+    func getAllRecipes(){
+        Firestore_DatabaseManager.firestoreDB.getRecipe { (recipesRes,error) in
+            if let error = error{
+                print("get recipes database error \(error)")
+            }
+            else if let recipesRes = recipesRes{
+                self.recipes = recipesRes
+            }
+        }
+    }
+    func deleteRecipe(id: String, navigationHandler: @escaping () -> Void) {
+        Firestore_DatabaseManager.firestoreDB.deleteRecipe(id: id) { [weak self] error in
+            if let error = error {
+                print("Error deleting recipe: \(error)")
+            } else {
+                print("Recipe deleted successfully")
+                self?.recipes.removeAll(where: { $0.id == id })
+                navigationHandler()
+            }
+        }
+    }
+
+
+    
+    func editRecipe(id: String, updatedName: String, updatedType: String, updatedDescription: String, completion: @escaping () -> Void) {
+            if let index = recipes.firstIndex(where: { $0.id == id }) {
+                recipes[index].recipe_name = updatedName
+                recipes[index].recipe_type = updatedType
+                recipes[index].recipe_descripton = updatedDescription
+                
+                Firestore_DatabaseManager.firestoreDB.updateRecipe(id: id, recipe: recipes[index]) { error in
+                    if let error = error {
+                        print("Error updating recipe: \(error)")
+                    } else {
+                        print("Recipe updated successfully")
+                        completion()
+                    }
+                }
+            }
+        }
 }

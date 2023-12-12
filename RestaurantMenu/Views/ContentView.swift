@@ -8,16 +8,69 @@
 import SwiftUI
 
 
+struct EditRecipeView: View {
+    @ObservedObject var recipe_VM: Recipe_ViewModel
+    @Binding var isPresented: Bool
+    @State private var updatedName: String
+    @State private var updatedType: String
+    @State private var updatedDescription: String
+    var recipe: Recipe
+
+    init(recipe: Recipe, isPresented: Binding<Bool>, viewModel: Recipe_ViewModel) {
+        self.recipe = recipe
+        self._isPresented = isPresented
+        self.recipe_VM = viewModel
+        self._updatedName = State(initialValue: recipe.recipe_name)
+        self._updatedType = State(initialValue: recipe.recipe_type)
+        self._updatedDescription = State(initialValue: recipe.recipe_descripton)
+    }
+
+    var body: some View {
+        VStack {
+            TextField("Name", text: $updatedName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            TextField("Type", text: $updatedType)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            TextField("Description", text: $updatedDescription)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
+            Button("Save") {
+                recipe_VM.editRecipe(
+                    id: recipe.id,
+                    updatedName: updatedName,
+                    updatedType: updatedType,
+                    updatedDescription: updatedDescription
+                ) {
+                    isPresented = false
+                }
+            }
+            .padding()
+        }
+        .padding()
+        .navigationTitle("Edit Recipe")
+    }
+}
+
+
 struct RecipeDetail: View {
     let recipe: Recipe
+    var viewModel=Recipe_ViewModel()
+    @State private var showAlert = false
+    @Environment(\.presentationMode) var presentationMode
+    @State private var isEditViewPresented = false
+
+
     
     var body: some View {
         VStack {
             if recipe.recipe_type == "Vegetarian" {
-                          Image("VegetarianMenu")
-                              .resizable()
-                              .scaledToFit()
-                      }
+                Image("VegetarianMenu")
+                    .resizable()
+                    .scaledToFit()
+            }
             else if recipe.recipe_type == "Carnivore"{
                 Image("MeatMenu")
                     .resizable()
@@ -41,13 +94,36 @@ struct RecipeDetail: View {
             Text("Name:\(recipe.recipe_name)").padding()
             Text("Type: \(recipe.recipe_type)").padding()
             Text(recipe.recipe_descripton).padding()
-        }
-    }
-}
+            Button("Edit") {
+                           isEditViewPresented.toggle()
+                       }
+                       .sheet(isPresented: $isEditViewPresented) {
+                           NavigationView {
+                               EditRecipeView(recipe: recipe, isPresented: $isEditViewPresented, viewModel: viewModel)
+                           }
+                       }
+            Button("Delete") {
+                           showAlert = true
+                       }
+                       .alert(isPresented: $showAlert) {
+                           Alert(
+                               title: Text("Confirm Delete"),
+                               message: Text("Are you sure you want to delete this recipe?"),
+                               primaryButton: .destructive(Text("Delete")) {
+                                   viewModel.deleteRecipe(id: recipe.id) {
+                                       presentationMode.wrappedValue.dismiss()
+                                   }
+                               },
+                               secondaryButton: .cancel()
+                           )
+                       }
+                   }
+               }
+           }
 
 struct ContentView: View {
     
-    @State var recipe_VM=Recipe_ViewModel()
+    @ObservedObject var recipe_VM=Recipe_ViewModel()
     @State var goToAddRecipeView=false
     @State var employeeActive = false
     @State var recipes: [Recipe]
@@ -66,27 +142,28 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                    TextField("Search Recipes", text: $searchText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                    Button("Search"){
-                        searchRecipe()
-                    }
-                    .padding(5)
-                    .foregroundColor(Color.white)
-                    .border(.white, width: 1)
-                    .background(Color.green)
-                    .frame(width: 200)
-                    
+                TextField("Search Recipes", text: $searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                Button("Search"){
+                    searchRecipe()
+                }
+                .padding(5)
+                .foregroundColor(Color.white)
+                .border(.white, width: 1)
+                .background(Color.green)
+                .frame(width: 200)
+                
                 //when u search
-                    if let searchedRecipe = searchedRecipe {
-                        RecipeDetail(recipe: searchedRecipe)
-                            .background(Color.white)
-                            .border(Color.black)
-                    }
-                    List(recipes, id: \.recipe_name) { recipe in
-                        NavigationLink(destination: RecipeDetail(recipe: recipe)
-                            .border(.white,width:1)){
+                if let searchedRecipe = searchedRecipe {
+                    RecipeDetail(recipe: searchedRecipe)
+                        .background(Color.white)
+                        .border(Color.black)
+                    
+                }
+                List(recipe_VM.recipes, id: \.id) { recipe in
+                    NavigationLink(destination: RecipeDetail(recipe: recipe, viewModel: recipe_VM)
+                        .border(.white,width:1)){
                             ScrollView{
                                 VStack{
                                     //the main list page
@@ -97,56 +174,57 @@ struct ContentView: View {
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                 }
+                                
                             }
                         }
+                    
+                }
+                .toolbar {
+                    // Add Recipe button
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: AddRecipeView(viewModel: recipe_VM, recipes: $recipes)) {
+                            Label("Recipe", systemImage: "book.fill")
+                            Text("Add Recipes")
+                                .font(Font.system(size: 10))
+                        }
+                        .navigationViewStyle(StackNavigationViewStyle())
+                    }
+                    
+                    // Timer button
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: TimerView()) {
+                            Label("Timer", systemImage: "clock.fill")
+                            Text("Timer")
+                                .font(Font.system(size: 10))
+                        }
+                        .navigationViewStyle(StackNavigationViewStyle())
                         
                     }
-                        .toolbar {
-                        // Add Recipe button
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: AddRecipeView(viewModel: recipe_VM, recipes: $recipes)) {
-                                Label("Recipe", systemImage: "book.fill")
-                                Text("Add Recipes")
-                                    .font(Font.system(size: 10))
-                            }
-                            .navigationViewStyle(StackNavigationViewStyle())
+                    
+                    // Employees button
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: EmployeesView()) {
+                            Label("Employees", systemImage: "person.fill")
+                            Text("Employees")
+                                .font(Font.system(size: 10))
                         }
-                        
-                        // Timer button
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: TimerView()) {
-                                Label("Timer", systemImage: "clock.fill")
-                                Text("Timer")
-                                    .font(Font.system(size: 10))
-                            }
-                            .navigationViewStyle(StackNavigationViewStyle())
-                            
-                        }
-                        
-                        // Employees button
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: EmployeesView()) {
-                                Label("Employees", systemImage: "person.fill")
-                                Text("Employees")
-                                    .font(Font.system(size: 10))
-                            }
-                            .navigationViewStyle(StackNavigationViewStyle())
-                            .padding(20)
-                        }
-                        
+                        .navigationViewStyle(StackNavigationViewStyle())
+                        .padding(20)
                     }
-                    .foregroundColor(Color.blue)
-                    .padding()
-                    .background(LinearGradient(gradient: Gradient(colors: [.blue,.green]), startPoint: .top, endPoint: .bottom))
-                    .border(.black, width: 1)
+                    
                 }
-                .onAppear {
-                    self.recipes = recipe_VM.recipes
-                }
-                
+                .foregroundColor(Color.blue)
+                .padding()
+                .background(LinearGradient(gradient: Gradient(colors: [.blue,.green]), startPoint: .top, endPoint: .bottom))
+                .border(.black, width: 1)
             }
-        
+            .onAppear {
+                recipe_VM.getAllRecipes()
+            }
+        }
     }
+
+    
     
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View{
