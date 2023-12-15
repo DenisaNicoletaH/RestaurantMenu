@@ -6,102 +6,82 @@
 //
 
 import SwiftUI
-
-
 struct AddRecipeView: View {
-    @State public var name:String=""
-    @State public var diet:String=""
-    @State public var description:String=""
-    @State public var showAlert:Bool=false
+    @State public var name: String = ""
+    @State public var diet: String = ""
+    @State public var description: String = ""
+    @State public var showAlert: Bool = false
     @ObservedObject var viewModel: Recipe_ViewModel
-    @Binding var recipes:[Recipe]
-    @State var recipe_VM=Recipe_ViewModel()
-    @State var goToAddRecipeView=false
-    @State private var searchText=""
+    @Binding var recipes: [Recipe]
+    @State var goToAddRecipeView = false
+    @State private var searchText = ""
     @State private var employeeActive = false
     @Environment(\.presentationMode) var presentationMode
 
-       
-
     var body: some View {
-        NavigationView{
-            VStack{
+        NavigationView {
+            VStack(spacing: 20) {
                 Text("Add Recipe")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color.blue)
-               //  .padding(.bottom,50)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.blue)
                 
-                
-                HStack{
+                VStack(alignment: .leading, spacing: 10) {
                     Text("Recipe Name:")
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(.blue)
                     TextField("Recipe Name", text: $name)
-                        .padding(5)
-                        .border(.black, width: 1)
-                        .background(Color.white)
-                        .frame(width: 200)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 8)
                 }
-                
-                
-                
-                      HStack{
-                          Text("Recipe Diet:")
-                              .foregroundColor(Color.blue)
-                          TextField("Diet",text:$diet)
-                              .padding(5)
-                              .border(.black, width: 1)
-                              .background(Color.white)
-                              .frame(width: 200)
-
-                      }
-                
-                
-                HStack{
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Recipe Diet:")
+                        .foregroundColor(.blue)
+                    TextField("Diet", text: $diet)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 8)
+                }
+                VStack(alignment: .leading, spacing: 10) {
                     Text("Recipe Description:")
-                        .foregroundColor(Color.blue)
-                    TextField("Description/How to do it", text:$description)
-                        .padding(10)
-                        .border(.black, width: 1)
-                        .background(Color.white)
-                        .frame(width: 280)
+                        .foregroundColor(.blue)
+                    TextField("Description/How to do it", text: $description)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.vertical, 8)
                 }
-                
                 
                 Button("Add") {
                     viewModel.addRecipe(name: name, type: diet, description: description)
                     recipes.append(Recipe(recipe_name: name, recipe_type: diet, recipe_descripton: description))
-                    presentationMode.wrappedValue.dismiss();                    showAlert = true
-                    
-                    
-                }.padding(.top,50)
-                    
-                    .alert(isPresented: $showAlert) {
+                    presentationMode.wrappedValue.dismiss()
+                    showAlert = true
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.green)
+                .cornerRadius(8)
+                .alert(isPresented: $showAlert) {
                     Alert(
                         title: Text("Recipe Added"),
                         message: Text("You have successfully added the recipe: \(name)"),
                         dismissButton: .default(Text("OK"))
                     )
-                    }
+                }
+                .padding(.horizontal)
             }
-            .foregroundColor(Color.black)
-            
-                    
-            
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
+            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+            .padding()
+            .border(Color.black, width: 1)
         }
-        .padding()
-        .background(LinearGradient(gradient: Gradient(colors: [.green,.blue ]),startPoint: .top,endPoint:.bottom))
-        .border(.black, width: 1)
     }
-       
-
-    
-    
 }
+
+
 struct AddRecipeView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = Recipe_ViewModel()
-        
         return AddRecipeView(viewModel: viewModel, recipes: .constant([]))
     }
 }

@@ -6,43 +6,36 @@
 //
 
 import SwiftUI
-
 struct AddEmployeesView: View {
-    
     @State private var name: String = ""
     @Binding var employees: [Employees]
     @State private var showAlert: Bool = false
     @ObservedObject var employees_VM: Employees_ViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("Add Employee")
-                .font(.largeTitle)
-                .fontWeight(.black)
-                .foregroundColor(Color.blue)
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.blue)
             
-            HStack {
-                Text("Employee Name")
-                    .foregroundColor(Color.blue)
-                TextField("Employee Name", text: $name)
-                    
-                    .padding(5)
-                    .border(Color.black, width: 1)
-                    .background(Color.white)
-                   // .frame(width:200)
-            }
+            TextField("Employee Name", text: $name)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+                .foregroundColor(.black)
             
-            Button("Add"){
+            Button("Add") {
                 employees_VM.addEmployees(name: name)
                 employees.append(Employees(employee_name: name, active: false))
                 showAlert = true
                 presentationMode.wrappedValue.dismiss()
             }
-            
-
-          //  .padding(.top, 50)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .foregroundColor(.white)
+            .background(Color.blue)
+            .cornerRadius(8)
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("Employee Added"),
@@ -50,14 +43,17 @@ struct AddEmployeesView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+            .padding(.horizontal)
         }
-        
-        .foregroundColor(Color.black)
         .padding()
-        .border(LinearGradient(gradient: Gradient(colors: [.green, .blue]), startPoint: .top, endPoint: .bottom),width:10)
-        
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(10)
+        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+        .padding()
+       // .border(Color.black, width: 1)
     }
 }
+
     
 
     

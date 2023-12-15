@@ -12,11 +12,13 @@ class Recipe_ViewModel: ObservableObject {
 
     @Published
     var recipes : [Recipe] = []
-    
+    @Published var drink: DrinkResult? = nil
+
     
     func addRecipe(name: String, type: String, description: String) {
         let newRecipe = Recipe(recipe_name: name, recipe_type: type, recipe_descripton: description)
         Firestore_DatabaseManager.firestoreDB.createRecipe(recipes: newRecipe)
+        getAllRecipes()
     }
 
     
@@ -40,6 +42,13 @@ class Recipe_ViewModel: ObservableObject {
                 navigationHandler()
             }
         }
+    }
+    
+    
+    func getRandomDrink(){
+        FindMeADrinkApiService.API_service.fetchAll(completion: {data in
+            self.drink = data?.drinks.first
+        })
     }
 
 
