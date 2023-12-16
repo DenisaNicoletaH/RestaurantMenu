@@ -201,9 +201,9 @@ struct ContentView: View {
                         
                         // Timer button
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: TimerView(vm: recipe_VM)) {
+                            NavigationLink(destination: DrinksView(vm: recipe_VM)) {
                                 Label("Drinks", systemImage:"mug.fill")
-                                Text("Timer")
+                                Text("Drink")
                                     .font(Font.system(size: 10))
                             }
                             .navigationViewStyle(StackNavigationViewStyle())

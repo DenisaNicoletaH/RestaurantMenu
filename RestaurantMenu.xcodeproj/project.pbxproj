@@ -22,7 +22,7 @@
 		9294A7ED2B2BE5140022C3F1 /* FindMeADrink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9294A7EC2B2BE5140022C3F1 /* FindMeADrink.swift */; };
 		9294A7EF2B2BE8130022C3F1 /* DrinkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9294A7EE2B2BE8130022C3F1 /* DrinkResponse.swift */; };
 		929BA0B52B2618F100C9F44E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 929BA0B42B2618F100C9F44E /* GoogleService-Info.plist */; };
-		92A6AFCE2AE365E700BD39B8 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A6AFCD2AE365E700BD39B8 /* TimerView.swift */; };
+		92A6AFCE2AE365E700BD39B8 /* DrinksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A6AFCD2AE365E700BD39B8 /* DrinksView.swift */; };
 		92D097C72B280A78000CD840 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 92D097C62B280A78000CD840 /* FirebaseFirestore */; };
 		92D097C92B280A78000CD840 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 92D097C82B280A78000CD840 /* FirebaseFirestoreCombine-Community */; };
 		92D097CB2B280A78000CD840 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 92D097CA2B280A78000CD840 /* FirebaseFirestoreSwift */; };
@@ -46,7 +46,7 @@
 		9294A7EE2B2BE8130022C3F1 /* DrinkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkResponse.swift; sourceTree = "<group>"; };
 		929BA0B42B2618F100C9F44E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		929BA0E72B263DC000C9F44E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		92A6AFCD2AE365E700BD39B8 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		92A6AFCD2AE365E700BD39B8 /* DrinksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinksView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +128,7 @@
 				637C51C72AE07BD00003039A /* RestaurantMenuApp.swift */,
 				637C51C92AE07BD00003039A /* ContentView.swift */,
 				637C51DC2AE0904F0003039A /* AddRecipeView.swift */,
-				92A6AFCD2AE365E700BD39B8 /* TimerView.swift */,
+				92A6AFCD2AE365E700BD39B8 /* DrinksView.swift */,
 				926E8F092AED7241005901D7 /* EmployeesView.swift */,
 				922322562AF05DAB0086B579 /* AddEmployeesView.swift */,
 			);
@@ -240,7 +240,7 @@
 			files = (
 				9294A7EF2B2BE8130022C3F1 /* DrinkResponse.swift in Sources */,
 				926E8F0E2AED72CC005901D7 /* EmployeesModel.swift in Sources */,
-				92A6AFCE2AE365E700BD39B8 /* TimerView.swift in Sources */,
+				92A6AFCE2AE365E700BD39B8 /* DrinksView.swift in Sources */,
 				926E8F0A2AED7241005901D7 /* EmployeesView.swift in Sources */,
 				926E8F0C2AED72B9005901D7 /* Employees_ViewModel.swift in Sources */,
 				927FC16D2B265290007E3D53 /* FirebaseDB.swift in Sources */,
